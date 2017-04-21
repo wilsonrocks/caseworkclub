@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^$',views.index,name='index'),
     url(r'member/(?P<pk>'+membership_number_regex+r')',views.MemberView.as_view(),name='member'),
     url(r'^case/(?P<pk>\d+)',views.CaseView.as_view(),name='case'),
+    url(r'^case2/(?P<pk>\d+)',views.case2_view, name='case2'),
     url(r'cases/(?P<slug>\w+)',views.UserCasesView.as_view(),name='cases'),
     url(r'^newcasenote',views.new_case_note,name='new_case_note'),
     url(r'^newcase',views.NewCase,name='newcase'),

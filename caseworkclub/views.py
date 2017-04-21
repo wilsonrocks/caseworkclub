@@ -1,4 +1,5 @@
-from django.shortcuts import render,redirect
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import render,render_to_response, redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from django.template import loader
 from django.views import generic
@@ -25,6 +26,20 @@ class CaseView(generic.DetailView):
         context['username'] =  self.request.user.username
         print(self.request.user.username)
         return(context)
+
+
+@login_required
+def case2_view(request, pk):
+    case = models.Case.objects.get(pk=pk)
+
+    # Check the user can access the case.
+    if case.association != request.user.association:
+        raise PermissionDenied
+
+    return render_to_response('caseworkclub/case_detail.html', {
+        'object': case,
+        'username': request.user.username,
+    })
 
 
 @method_decorator(login_required,name='dispatch')
